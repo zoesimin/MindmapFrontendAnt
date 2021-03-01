@@ -1,2 +1,2 @@
-# MindmapFrontendAnt
-智能导学系统的前端部分
+# 部署智能导学系统
+
