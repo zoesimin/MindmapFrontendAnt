@@ -68,7 +68,9 @@ export class THomeworkComponent implements OnInit, OnChanges {
       this.node_id).subscribe(
       value => this.setJudge(value));
   }
-
+  deleteQuestion() {
+    console.log('删除');
+  }
   setMultiple(value) {
     this.multipleQuestions = value;
   }

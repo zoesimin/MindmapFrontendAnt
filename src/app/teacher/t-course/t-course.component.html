@@ -130,6 +130,17 @@
             [node_id]="selected_node_id">
           </app-t-courseware>
         </nz-tab>
+
+        <!--反馈-->
+        <nz-tab [nzTitle]="'反馈'"
+                [nzDisabled]="selected_node_id==='' || isChanged || switchToAccuracyMode">
+          <app-t-feedback
+            *ngIf="selected_node_id"
+            [course_id]="course_id"
+            [mind_id]="currentMindmap.id"
+            [node_id]="selected_node_id">
+          </app-t-feedback>
+        </nz-tab>
       </nz-tabset>
     </nz-content>
 

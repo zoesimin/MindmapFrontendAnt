@@ -46,3 +46,7 @@ li.color-item {
     display: inline-block;
     float: right;
 }
+
+.demo-chart{
+  height: 800px;
+}

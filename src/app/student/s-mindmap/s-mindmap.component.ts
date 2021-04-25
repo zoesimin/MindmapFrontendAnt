@@ -94,6 +94,7 @@ export class SMindmapComponent implements OnInit {
     this.mindmapService.getMindmapNodeCount(this.mindmap_id).subscribe(
       r => {
         this.mindmap_node_count = r;
+        console.log(r);
         this.switchMode();
       }
     );

@@ -5,7 +5,8 @@
 
     <div id="courses">
       <div nz-row [nzGutter]="20">
-        <div *ngFor="let course of courses" nz-col class="gutter-row" [nzSpan]="8">
+        <div *ngFor="let course of courses.slice((pagination.pageIndexSelected - 1) * pagination.pageSizeSelected,
+         pagination.pageIndexSelected * pagination.pageSizeSelected)" nz-col class="gutter-row" [nzSpan]="8">
           <div class="course">
             <div class="courseName">{{course.course_id}}: <b>{{course.course_name}}</b></div>
             <div class="studentNumber">课程人数：{{course.course_number}}</div>
@@ -16,25 +17,53 @@
       </div>
     </div>
 
+    <nz-divider></nz-divider>
+
+    <div nz-row nzJustify="center">
+      <div nz-col nzSpan="8">
+        <nz-pagination
+          [(nzPageIndex)]="pagination.pageIndexSelected"
+          [nzPageSize]="pagination.pageSizeSelected" [nzTotal]="courses.length"></nz-pagination>
+      </div>
+    </div>
 
   </nz-tab>
   <nz-tab nzTitle="添加课程">
 
     <input type="text" style="width: 300px;" [(ngModel)]="intentionName" nz-input placeholder="通过输入全名来搜索课程">
     <button nz-button nzType="primary" style="margin-left: 10px;" (click)="search()">搜索</button>
+    <button nz-button nzType="primary" style="margin-left: 10px;" (click)="searchAll()">所有课程</button>
 
     <div id="allCourse">
       <div nz-row [nzGutter]="20">
 
-        <div *ngIf="intentionCourse" nz-col class="gutter-row" [nzSpan]="8">
+<!--        <div *ngIf="intentionCourse" nz-col class="gutter-row" [nzSpan]="8">-->
+<!--          <div class="course">-->
+<!--            <div class="courseName">{{intentionCourse.course_id}}: <b>{{intentionCourse.course_name}}</b></div>-->
+<!--            <div class="studentNumber">课程人数：{{intentionCourse.course_number}}</div>-->
+<!--            <button nz-button type="button"-->
+<!--                    (click)="inputCodeModal(inputCodeTitle, inputCodeContent, inputCodeFooter)">选课</button>-->
+<!--          </div>-->
+<!--        </div>-->
+        <div *ngFor="let intentionCourse of intentionCourses.slice((pagination.pageIndex - 1) * pagination.pageSize,
+         pagination.pageIndex * pagination.pageSize)" nz-col class="gutter-row" [nzSpan]="8">
           <div class="course">
             <div class="courseName">{{intentionCourse.course_id}}: <b>{{intentionCourse.course_name}}</b></div>
             <div class="studentNumber">课程人数：{{intentionCourse.course_number}}</div>
             <button nz-button type="button"
-                    (click)="inputCodeModal(inputCodeTitle, inputCodeContent, inputCodeFooter)">选课</button>
+                    (click)="inputCodeModal(inputCodeTitle, inputCodeContent, inputCodeFooter, intentionCourse.course_id)">选课</button>
           </div>
         </div>
 
+      </div>
+      <nz-divider></nz-divider>
+
+      <div nz-row nzJustify="center">
+        <div nz-col nzSpan="8">
+          <nz-pagination
+            [(nzPageIndex)]="pagination.pageIndex"
+            [nzPageSize]="6" [nzTotal]="intentionCourses.length"></nz-pagination>
+        </div>
       </div>
     </div>
   </nz-tab>

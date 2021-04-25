@@ -17,6 +17,13 @@ export class SCoursesComponent implements OnInit {
 
   intentionName = ''; // 输入的课程名
   intentionCourse: Course; // 将要选的课
+  intentionCourses: Course[] = []; // 搜索出的课程名
+  pagination = {
+    pageIndex: 1,
+    pageIndexSelected: 1,
+    pageSize: 6,
+    pageSizeSelected: 6
+  };
 
   code = ''; // 选课码
   tplModal: NzModalRef; // 用于输入选课码
@@ -35,6 +42,7 @@ export class SCoursesComponent implements OnInit {
 
   // 获取学生选课列表
   getCourses() {
+    this.updatePageIndex();
     this.courseService.getCourses(window.sessionStorage.getItem('user_name'), window.sessionStorage.getItem('identity')).subscribe(
       value => this.setCourses(value));
   }
@@ -92,16 +100,29 @@ export class SCoursesComponent implements OnInit {
   }
 
   search() {
+    this.updatePageIndex();
+    this.intentionCourses = [];
+    for (const c of this.allCourse) {
+      if (c.course_name.search(this.intentionName) !== -1) {
+        console.log('aaa');
+        this.intentionCourses.push(c);
+      }
+    }
+    console.log(this.intentionCourses);
+  }
+  searchAll() {
+    this.updatePageIndex();
+    this.intentionCourses = this.allCourse;
+  }
+
+  inputCodeModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>, courseId) {
     this.intentionCourse = null;
     for (const c of this.allCourse) {
-      if (c.course_name === this.intentionName) {
+      if (c.course_id === courseId) {
         this.intentionCourse = c;
         break;
       }
     }
-  }
-
-  inputCodeModal(tplTitle: TemplateRef<{}>, tplContent: TemplateRef<{}>, tplFooter: TemplateRef<{}>) {
     this.tplModal = this.modalService.create({
       nzTitle: tplTitle,
       nzContent: tplContent,
@@ -110,5 +131,8 @@ export class SCoursesComponent implements OnInit {
     });
   }
 
+  updatePageIndex() {
+    this.pagination.pageIndex = 1;
+  }
 
 }
